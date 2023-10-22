@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.instagramclone.databinding.ActivityUploadBinding;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,6 +38,8 @@ public class UploadActivity extends AppCompatActivity {
         binding = ActivityUploadBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        registerLauncher();
     }
 
     public void uploadButtonClicked(View view){
@@ -53,15 +56,18 @@ public class UploadActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 //ask permisson
+                                permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
                             }
                         }).show();
             }else{
                 //ask permission
+                permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
+
             }
         }else {
             Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media
                     .EXTERNAL_CONTENT_URI);
-
+            activityResultLauncher.launch(intentToGallery);
         }
     }
 
@@ -92,11 +98,24 @@ public class UploadActivity extends AppCompatActivity {
                         }catch (Exception e){
 
                         }
-                        
+
                          */
                     }
                 }
             }
         });
+
+        permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(),
+                new ActivityResultCallback<Boolean>() {
+                    @Override
+                    public void onActivityResult(Boolean result) {
+                        if (result){
+                            Intent intentToGallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            activityResultLauncher.launch(intentToGallery);
+                        }else {
+                            Toast.makeText(UploadActivity.this,"Permission needed!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 }

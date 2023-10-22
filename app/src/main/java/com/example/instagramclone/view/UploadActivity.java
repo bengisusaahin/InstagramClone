@@ -1,4 +1,4 @@
-package com.example.instagramclone;
+package com.example.instagramclone.view;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -14,9 +14,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -36,7 +34,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 
 public class UploadActivity extends AppCompatActivity {
